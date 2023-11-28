@@ -1,7 +1,7 @@
 #include <LiquidCrystal.h>
 #include <SoftwareSerial.h>
 SoftwareSerial sim800l(0, 1);
-LiquidCrystal lcd(13, 12, 11, 10, 9, 8); //initialise the library with the numbers of the interface pins 
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8); 
 
 #define NOTE_C4  262
 #define NOTE_G3  196
@@ -9,7 +9,7 @@ LiquidCrystal lcd(13, 12, 11, 10, 9, 8); //initialise the library with the numbe
 #define NOTE_B3  247
 #define NOTE_C4  262
 
-int resval = 0;     // holds the value
+int resval = 0;     // Giữ giá trị mực nước
 int SensorPin = A0; // sensor pin used
 int melody[] = { NOTE_C4, NOTE_G3, NOTE_G3, NOTE_A3, NOTE_G3, 0, NOTE_B3, NOTE_C4 }; // notes in the melody
 
@@ -29,13 +29,9 @@ void setup() {
   lcd.print("Analog Value: ");
   lcd.setCursor(0,3);
   lcd.print("Voltage: ");
-  for (int thisNote = 0; thisNote < 8; thisNote++) { // iterate over the notes of the melody:
-    // to calculate the note duration, take one second divided by the note type.
-    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
+  for (int thisNote = 0; thisNote < 8; thisNote++) { 
     int noteDuration = 1000 / noteDurations[thisNote]; 
     tone(7, melody[thisNote], noteDuration);
-    // to distinguish the notes, set a minimum time between them.
-    // the note's duration + 30% seems to work well:
     int pauseBetweenNotes = noteDuration * 1.30;
     delay(pauseBetweenNotes);
     // stop the tone playing:
@@ -55,7 +51,7 @@ void loop() {
   delay(1000);
   
   lcd.setCursor(0, 1); // set the cursor to column 0, line 1 
-  resval = analogRead(SensorPin);    //Read data from analog pin and store it to resval variable
+  resval = analogRead(SensorPin);    //Đọc dữ liệu số và lưu giá trị cảm biến
   
   if (resval<=100)
   { 
@@ -92,12 +88,12 @@ void SendSMS()
   sim800l.print("Email: abc@gmail.com");                   //Set the module to SMS mode
   delay(100);
   Serial.println("Email: phambachtm2@gmail.com");
-  sim800l.print("AT+CMGS=\"01342567890\"\r");  //Your phone number don't forget to include your country code, example +212123456789"
+  sim800l.print("AT+CMGS=\"01342567890\"\r");  
   delay(500);
   Serial.println("0942560157");
-  sim800l.print("SIM800l is working");       //This is the text to send to the phone number, don't make it too long or you have to modify the SoftwareSerial buffer
+  sim800l.print("SIM800l is working");      
   delay(500);
-  sim800l.print((char)26);// (required according to the datasheet)
+  sim800l.print((char)26);
   delay(500);
   sim800l.println();
   Serial.println("Text Sent Successfull.");
